@@ -11,19 +11,10 @@ class CapitalViewSet(ModelViewSet):
     queryset = Capital.objects.all()
     serializer_class = CapitalSerializer
     
-    def create(self, request, *args, **kwargs):
-        nome_capital = request.data.get("nome")
-        
-        requisicao_capital = requests.get(
-            f'https://restcountries.com/v3.1/capital/{nome_capital}/'
-        )
-        
-        dicionario_capital = json.loads(requisicao_capital.content)[0]
-        
-    # def list(self, request, *args, **kwargs):
-    #     queryset = Capital.objects.all()
-    #     serializer = self.get_serializer(queryset, many=True)
-    #     return Response(serializer.data)
+    def list(self, request, *args, **kwargs):
+        queryset = Capital.objects.all()
+        serializer = self.get_serializer(queryset, many=True)
+        return Response(serializer.data)
 
 
 class PaisesViewSet(ModelViewSet):
@@ -37,18 +28,18 @@ class PaisesViewSet(ModelViewSet):
             f'https://restcountries.com/v3.1/name/{nome}/'
         )
         
-        pais_dicionario = json.loads(requisicao.content)[0]
+        requisicao_dicionario = json.loads(requisicao.content)[0]
         
         pais = Paises.objects.create(
-            nome=pais_dicionario["name"]["common"],
-            populacao=pais_dicionario["population"],
-            regiao=pais_dicionario["region"],
-            subregiao=pais_dicionario["subregion"],
+            nome=requisicao_dicionario["name"]["common"],
+            populacao=requisicao_dicionario["population"],
+            regiao=requisicao_dicionario["region"],
+            subregiao=requisicao_dicionario["subregion"],
         )
         
-        capital = pais_dicionario["capital"][0]
+        capital_nome = capital=requisicao_dicionario["capital"][0]
         capital, created = Capital.objects.get_or_create(
-            nome=capital,
+            nome=capital_nome,
             pais=pais
         )
         
