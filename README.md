@@ -1,4 +1,4 @@
-# Projeto_Django_Fabrica
+# Projeto Django
 ## Projeto em Django desenvolvido para a imersão na Fábrica de Software da Unipê
 
 ## Criando a Venv
