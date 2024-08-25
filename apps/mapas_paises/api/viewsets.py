@@ -37,9 +37,9 @@ class PaisesViewSet(ModelViewSet):
             subregiao=requisicao_dicionario["subregion"],
         )
         
-        capital_nome = capital=requisicao_dicionario["capital"][0]
-        capital, created = Capital.objects.get_or_create(
-            nome=capital_nome,
+        capital = requisicao_dicionario["capital"][0]
+        capital = Capital.objects.create(
+            nome=capital,
             pais=pais
         )
         
